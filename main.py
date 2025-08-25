@@ -6,7 +6,8 @@ def main():
     rules = HouseRules()
     player = RandomStrategyPlayer()
     game = Game(rules, player)
-    game.play_round()
+    result = game.play_round()
+    print(f"Outcome: {result.get("outcome")} \n\nPlayer's hand: {result.get("player")} \n\nDealer's hand: {result.get("dealer")}")
 
 if __name__ == "__main__":
     main()
