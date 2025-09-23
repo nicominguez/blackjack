@@ -1,17 +1,28 @@
 from card import Card, build_shoe
 from hand import Hand
 from rules import HouseRules
-from player import Player
-from typing import List
+from typing import List, Literal
 
 
 class Game:
-    def __init__(self, rules: HouseRules, player: Player):
+    def __init__(self, rules: HouseRules, player):
         self.rules = rules
         self.player = player
-        self.shoe = build_shoe(rules.num_decks)
+        self.shoe = build_shoe(num_decks=6)
 
     def play_round(self):
+        def round_result(result: Literal["win", "loss", "push", "blackjack"]):
+            return {
+                "outcome": result, 
+                "player": player_hand, 
+                "dealer": dealer_hand, 
+                "bankroll": self.player.bankroll
+                }
+
+        # Check if shoe needs to be reshuffled
+        if len(self.shoe) / (self.rules.num_decks*52) <= self.rules.reshuffle_threshold:
+            self.shoe = build_shoe(num_decks=self.rules.num_decks)
+
 
         # --- Deal ---
         player_hand = Hand()
@@ -24,11 +35,11 @@ class Game:
 
         # --- Player turn ---
         if player_hand.is_blackjack and dealer_hand.is_blackjack:
-            return {"outcome": "push", "player": player_hand, "dealer": dealer_hand}
+            return round_result("push")
         elif player_hand.is_blackjack:
-            return {"outcome": "blackjack", "player": player_hand, "dealer": dealer_hand}
+            return round_result("blackjack")
         elif dealer_hand.is_blackjack:
-            return {"outcome": "loss", "player": player_hand, "dealer": dealer_hand}
+            return round_result("loss")
 
         while not player_hand.is_bust:
             move = self.player.decide_move(
@@ -42,7 +53,7 @@ class Game:
                 break  # implement splitting, doubling, surrendering
 
         if player_hand.is_bust:
-            return {"outcome": "loss", "player": player_hand, "dealer": dealer_hand}
+            return round_result("loss")
 
         # --- Dealer turn ---
         while True:
@@ -54,12 +65,12 @@ class Game:
                 break
 
         if dealer_hand.is_bust:
-            return {"outcome": "win", "player": player_hand, "dealer": dealer_hand}
+            return round_result("win")
         
         # --- Compare hands ---
         if player_hand.best_total > dealer_hand.best_total:
-            return {"outcome": "win", "player": player_hand, "dealer": dealer_hand}
+            return round_result("win")
         elif player_hand.best_total < dealer_hand.best_total:
-            return {"outcome": "loss", "player": player_hand, "dealer": dealer_hand}
+            return round_result("loss")
         else:
-            return {"outcome": "push", "player": player_hand, "dealer": dealer_hand}
+            return round_result("push")

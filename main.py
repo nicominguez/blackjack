@@ -7,7 +7,7 @@ def main():
     player = RandomStrategyPlayer()
     game = Game(rules, player)
     result = game.play_round()
-    print(f"Outcome: {result.get("outcome")} \n\nPlayer's hand: {result.get("player")} \n\nDealer's hand: {result.get("dealer")}")
+    print(f"Outcome: {result.get("outcome")} \n\nPlayer's hand: {result.get("player")} \n\nDealer's hand: {result.get("dealer")} \n\nBankroll: {result.get("bankroll")}")
 
 if __name__ == "__main__":
     main()

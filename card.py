@@ -27,3 +27,6 @@ def build_shoe(num_decks: int = 1) -> list:
     shoe: List[Card] = [Card(rank, suit) for _ in range(num_decks) for suit in SUITS for rank in RANKS]
     random.shuffle(shoe)
     return shoe
+
+def draw_card():
+    pass
