@@ -23,4 +23,3 @@ Current options:
 * **`player.py`**: Defines the `Player` class and its subclasses.
 * **`rules.py`**: Sets the rules for the game (e.g., number of decks, payouts).
 * **`card.py` & `hand.py`**: These files define the fundamental building blocks of the game: cards and hands.
-* **`LICENSE`**: The licensing information for the project.
