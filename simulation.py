@@ -2,8 +2,10 @@ from player import RandomStrategyPlayer
 from rules import HouseRules
 from game import Game
 
+
 def run_simulation(num_hands = 1000, bet_amount: int = 5) -> None:
     wins, losses, pushes = 0, 0, 0
+    bankroll_history = [] # plots
 
     p = RandomStrategyPlayer()
     r = HouseRules()
@@ -16,14 +18,16 @@ def run_simulation(num_hands = 1000, bet_amount: int = 5) -> None:
             print(f"Player doesn't have money for the current bet.\nPlayer bankroll: {game.player.bankroll}\nCurrent bet: {bet_amount}\n\n\n")
             break
 
-        if outcome.get("outcome") == "win" or outcome.get("blackjack") == "win":
+        if outcome.get("outcome") == "win" or outcome.get("outcome") == "blackjack":
             wins += 1
         elif outcome.get("outcome") == "loss":
             losses += 1
         else:
             pushes += 1
+        
+        bankroll_history.append(p.bankroll)
 
-    return [wins, losses, pushes, wins+losses+pushes, p.bankroll]
+    return [wins, losses, pushes, wins+losses+pushes, p.bankroll, bankroll_history]
 
 def main():
     results = run_simulation()
@@ -33,6 +37,5 @@ def main():
     print(f"Losses: {results[1]} ~ {(results[1]/results[3]):.2%}")
     print(f"Pushes: {results[2]} ~ {(results[2]/results[3]):.2%}")
     print(f"Bankroll: {results[4]}")
-
 if __name__ == "__main__":
     main()

@@ -15,5 +15,4 @@ class Player(ABC):
 class RandomStrategyPlayer(Player):
     def decide_move(self, hand: Hand, dealer_up, rules:HouseRules) -> str:
         options = ['hit', 'stand', 'double', 'split', 'surrender']
-        ##return random.choice(options)
-        return 'double'
+        return random.choice(options)
