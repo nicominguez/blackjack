@@ -2,7 +2,7 @@ from player import RandomStrategyPlayer
 from rules import HouseRules
 from game import Game
 
-def run_simulation(num_hands = 1000) -> None:
+def run_simulation(num_hands = 1000, bet_amount: int = 5) -> None:
     wins, losses, pushes = 0, 0, 0
 
     p = RandomStrategyPlayer()
@@ -10,7 +10,11 @@ def run_simulation(num_hands = 1000) -> None:
     game = Game(player=p, rules=r)
 
     for _ in range(num_hands):
-        outcome = game.play_round()
+        outcome = game.play_round(bet_amount = bet_amount)
+
+        if outcome.get("outcome") == "broke":
+            print(f"Player doesn't have money for the current bet.\nPlayer bankroll: {game.player.bankroll}\nCurrent bet: {bet_amount}\n\n\n")
+            break
 
         if outcome.get("outcome") == "win" or outcome.get("blackjack") == "win":
             wins += 1
