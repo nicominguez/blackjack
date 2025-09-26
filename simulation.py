@@ -30,7 +30,7 @@ def run_simulation(p: Player = player, r: HouseRules = rules, num_hands: int = 1
     return [wins, losses, pushes, wins+losses+pushes, p.bankroll, bankroll_history]
 
 def main():
-    results = run_simulation()
+    results = run_simulation(p = ChartPlayer2())
 
     print(f"Hands played: {results[3]}")
     print(f"Wins: {results[0]} ~ {(results[0]/results[3]):.2%}")

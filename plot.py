@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 from simulation import run_simulation
+from player import *
 
 def plot_bankroll_history(bankroll_history: list):
     """Plots player's bankroll throughout simulation."""
