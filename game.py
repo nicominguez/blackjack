@@ -68,15 +68,15 @@ class Game:
             move = self.player.decide_move(
                 player_hand, dealer_hand.cards[0], self.rules
             )
-            if move == "hit":
+            if move == "hit" or move == 'h':
                 player_hand.add(self.shoe.pop())
-            elif move == "surrender":
+            elif move == "surrender" or move == 'r':
                 return round_result("surr_loss", None, None)
-            elif move == "double":
+            elif move == "double" or move == 'd':
                 player_hand.add(self.shoe.pop())
                 bet_amount *= 2
                 break
-            elif move == "stand":
+            elif move == "stand" or move == 's':
                 break
             else:
                 break  # implement splitting

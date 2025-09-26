@@ -1,15 +1,15 @@
-from player import RandomStrategyPlayer
+from player import *
 from rules import HouseRules
 from game import Game
 
+player = BasicStrategyPlayer() # default
+rules = HouseRules() # default
 
-def run_simulation(num_hands = 1000, bet_amount: int = 5) -> None:
+def run_simulation(p: Player = player, r: HouseRules = rules, num_hands: int = 1000, bet_amount: int = 5) -> None:
+    game = Game(player=p, rules=r)
+
     wins, losses, pushes = 0, 0, 0
     bankroll_history = [] # plots
-
-    p = RandomStrategyPlayer()
-    r = HouseRules()
-    game = Game(player=p, rules=r)
 
     for _ in range(num_hands):
         outcome = game.play_round(bet_amount = bet_amount)
