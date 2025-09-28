@@ -58,8 +58,17 @@ class ChartPlayer1(Player):
             ["s", "s", "s", "s", "s", "s", "s", "s", "s", "s"],  # 21
         ]
         return hard_soft_matrix[hand.best_total - 4][
-            9 if dealer_up.rank == "A" else (8 if dealer_up.rank in {"10", "J", "Q", "K"} else int(dealer_up.rank) - 2)
+            (
+                9
+                if dealer_up.rank == "A"
+                else (
+                    8
+                    if dealer_up.rank in {"10", "J", "Q", "K"}
+                    else int(dealer_up.rank) - 2
+                )
+            )
         ]
+
 
 class ChartPlayer2(Player):
     def decide_move(self, hand: Hand, dealer_up: Card, rules: HouseRules):
@@ -98,9 +107,25 @@ class ChartPlayer2(Player):
         ]
         if hand.is_soft:
             return soft_matrix[hand.best_total - 13][
-                9 if dealer_up.rank == "A" else (8 if dealer_up.rank in {"10", "J", "Q", "K"} else int(dealer_up.rank) - 2)
+                (
+                    9
+                    if dealer_up.rank == "A"
+                    else (
+                        8
+                        if dealer_up.rank in {"10", "J", "Q", "K"}
+                        else int(dealer_up.rank) - 2
+                    )
+                )
             ]
         else:
             return hard_matrix[hand.best_total - 4][
-                9 if dealer_up.rank == "A" else (8 if dealer_up.rank in {"10", "J", "Q", "K"} else int(dealer_up.rank) - 2)
+                (
+                    9
+                    if dealer_up.rank == "A"
+                    else (
+                        8
+                        if dealer_up.rank in {"10", "J", "Q", "K"}
+                        else int(dealer_up.rank) - 2
+                    )
+                )
             ]

@@ -35,14 +35,13 @@ class Hand:
     @property
     def is_bust(self) -> bool:
         return self.best_total > 21
-    
+
     @property
     def is_soft(self) -> bool:
         """True if hand contains an Ace counted as 11."""
         total = sum(card.hard_value for card in self.cards)
         has_ace = any(card.rank == "A" for card in self.cards)
         return total <= 21 and has_ace
-
 
     def __repr__(self) -> str:
         return f"Hand: {' '.join(str(card) for card in self.cards)} \nTotal: {self.best_total} "
