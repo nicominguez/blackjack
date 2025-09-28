@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
-from card import Card
-from hand import Hand
-from rules import HouseRules
+from src.card import Card
+from src.hand import Hand
+from src.rules import HouseRules
 import random
 
 
@@ -58,7 +58,7 @@ class ChartPlayer1(Player):
             ["s", "s", "s", "s", "s", "s", "s", "s", "s", "s"],  # 21
         ]
         return hard_soft_matrix[hand.best_total - 4][
-            dealer_up.rank - 2 if type(dealer_up.rank) == "int" else 9
+            9 if dealer_up.rank == "A" else (8 if dealer_up.rank in {"10", "J", "Q", "K"} else int(dealer_up.rank) - 2)
         ]
 
 class ChartPlayer2(Player):
@@ -98,9 +98,9 @@ class ChartPlayer2(Player):
         ]
         if hand.is_soft:
             return soft_matrix[hand.best_total - 13][
-                dealer_up.rank - 2 if type(dealer_up.rank) == "int" else 9
+                9 if dealer_up.rank == "A" else (8 if dealer_up.rank in {"10", "J", "Q", "K"} else int(dealer_up.rank) - 2)
             ]
         else:
             return hard_matrix[hand.best_total - 4][
-                dealer_up.rank - 2 if type(dealer_up.rank) == "int" else 9
+                9 if dealer_up.rank == "A" else (8 if dealer_up.rank in {"10", "J", "Q", "K"} else int(dealer_up.rank) - 2)
             ]

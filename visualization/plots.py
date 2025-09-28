@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
-from simulation import run_simulation
-from player import *
+from executables.simulation import run_simulation
+from src.player import *
 
 def plot_bankroll_histories(bankroll_histories: list, labels: list):
     """Plots multiple players' bankrolls throughout the simulation."""

@@ -1,6 +1,6 @@
-from card import Card, build_shoe
-from hand import Hand
-from rules import HouseRules
+from src.card import Card, build_shoe
+from src.hand import Hand
+from src.rules import HouseRules
 from typing import List, Literal
 
 

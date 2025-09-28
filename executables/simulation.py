@@ -1,6 +1,6 @@
-from player import *
-from rules import HouseRules
-from game import Game
+from src.player import *
+from src.rules import HouseRules
+from src.game import Game
 
 player = BasicStrategyPlayer() # default
 rules = HouseRules() # default

@@ -1,6 +1,6 @@
 from dataclasses import dataclass, field
 from typing import List
-from card import Card
+from src.card import Card
 
 
 @dataclass(slots=True)
