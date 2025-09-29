@@ -4,7 +4,7 @@ A simple blackjack simulator designed to test various strategies and house rules
 
 ![Bankroll histories throughout simulation](images/bh.png)
 ![Cumulative winrate throughout simulation](images/wr.png)
-![Console output](images/console.png)
+![Console output](images/console1.png)
 
 ---
 
