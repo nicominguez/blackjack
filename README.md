@@ -28,7 +28,7 @@ Current options:
 - **`main.py`**: Entry point for running custom number of rounds and betting amounts with selected players and rules.
 - **`plot.py`**: Visualization of results and trends from simulations.
 
-**/src**
+**/src**:
 - **`card.py`**: Creates and shuffles the dec.
 - **`hand.py`**: Calculates totals, checks busts, blackjacks, etc.
 - **`rules.py`**: Contains different rule sets.
@@ -39,15 +39,18 @@ Current options:
 ---
 
 ### Flowchart
-Below is a flowchart illustrating the relationships between the core components:
 
 ```mermaid
 graph TD
     Card --> Hand
     Hand --> Player
+    Card --> Player
+    Rules --> Player
+    PlayerUtils --> Player
     Player --> Game
     Rules --> Game
-    PlayerUtils --> Player
+    Game --> Simulation/Main
+    Plot --> Simulation/Main
 ```
 
 ---
