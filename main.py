@@ -4,71 +4,85 @@ from src.game import Game
 from plot import *
 
 def run_sim(
-        player: Player = BasicStrategyPlayer(),
+        players: list[Player],
         rules: HouseRules = HouseRules(),
         num_hands: int = 1000,
         bet_amount: int = 5,
         plot_bh: bool = False,
         plot_wr: bool = False
-) -> dict[str, int | list]:
-    game = Game(player = player, rules = rules)
+) -> list[dict[str, int | list]]:
+    results = []
+    bankroll_histories = []
+    cumulative_winrates = []
+    labels = []
 
-    wins, losses, pushes = 0, 0, 0
-    bankroll_history, cum_winrate = [], []  # plots
+    for player in players:
+        game = Game(player=player, rules=rules)
+        wins, losses, pushes = 0, 0, 0
+        bankroll_history, cum_winrate = [], []
 
-    for _ in range(num_hands):
-        outcome = game.play_round(bet_amount=bet_amount)
+        for _ in range(num_hands):
+            outcome = game.play_round(bet_amount=bet_amount)
 
-        if outcome.get("outcome") == "broke":
-            print(
-                f"Player doesn't have money for the current bet.\nPlayer bankroll: {game.player.bankroll}\nCurrent bet: {bet_amount}\n\n\n"
-            )
-            break
+            if outcome.get("outcome") == "broke":
+                print(
+                    f"Player {repr(player)} doesn't have money for the current bet.\n"
+                    f"Player bankroll: {game.player.bankroll}\nCurrent bet: {bet_amount}\n\n\n"
+                )
+                break
 
-        if outcome.get("outcome") == "win" or outcome.get("outcome") == "blackjack":
-            wins += 1
-        elif outcome.get("outcome") == "loss":
-            losses += 1
-        else:
-            pushes += 1
+            if outcome.get("outcome") in ["win", "blackjack"]:
+                wins += 1
+            elif outcome.get("outcome") == "loss":
+                losses += 1
+            else:
+                pushes += 1
 
-        bankroll_history.append(player.bankroll)
-        cum_winrate.append(wins / (wins + losses + pushes))
+            bankroll_history.append(player.bankroll)
+            cum_winrate.append(wins / (wins + losses + pushes))
+
+        bankroll_histories.append(bankroll_history)
+        cumulative_winrates.append(cum_winrate)
+        labels.append(repr(player))
+
+        results.append({
+            "player": repr(player),
+            "wins": wins,
+            "losses": losses,
+            "pushes": pushes,
+            "total_games": wins + losses + pushes,
+            "final_bankroll": player.bankroll,
+            "bankroll_history": bankroll_history,
+            "cum_winrate": cum_winrate,
+        })
 
     # Plots
     if plot_bh:
-        plot_bankroll_histories([bankroll_history], [repr(player)])
+        plot_bankroll_histories(bankroll_histories, labels)
     if plot_wr:
-        plot_cumulative_winrates([cum_winrate], [repr(player)])
+        plot_cumulative_winrates(cumulative_winrates, labels)
 
-    return {
-        "wins": wins,
-        "losses": losses,
-        "pushes": pushes,
-        "total_games": wins + losses + pushes,
-        "final_bankroll": player.bankroll,
-        "bankroll_history": bankroll_history,
-        "cum_winrate": cum_winrate,
-    }
-
+    return results
 
 
 def main():
     PARAMETERS = {
-        "player": ChartPlayer2(),
+        "players": [RandomStrategyPlayer(), BasicStrategyPlayer(), ChartPlayer1(), ChartPlayer2()],
         "rules": HouseRules(),
         "num_hands": 3000,
         "bet_amount": 5,
-        "plot_bh": False,
-        "plot_wr": True
+        "plot_bh": True,
+        "plot_wr": False
     }
-    
+
     results = run_sim(**PARAMETERS)
-    print(f"Hands played: {results.get("total_games")}")
-    print(f"Wins: {results.get("wins")} ~ {(results.get("wins")/results.get("total_games")):.2%}")
-    print(f"Losses: {results.get("losses")} ~ {(results.get("losses")/results.get("total_games")):.2%}")
-    print(f"Pushes: {results.get("pushes")} ~ {(results.get("pushes")/results.get("total_games")):.2%}")
-    print(f"Bankroll: {results.get("final_bankroll")}")
+    for result in results:
+        print(f"Player: {result['player']}")
+        print(f"Hands played: {result['total_games']}")
+        print(f"Wins: {result['wins']} ~ {(result['wins']/result['total_games']):.2%}")
+        print(f"Losses: {result['losses']} ~ {(result['losses']/result['total_games']):.2%}")
+        print(f"Pushes: {result['pushes']} ~ {(result['pushes']/result['total_games']):.2%}")
+        print(f"Bankroll: {result['final_bankroll']}\n")
 
 
 if __name__ == "__main__":
