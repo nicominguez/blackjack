@@ -1,10 +1,10 @@
-# Blackjack Simulator
+# Blackjack Simulator 🃏
 
 A simple blackjack simulator designed to test various strategies and house rules. This project allows you to simulate games, analyze outcomes, and explore different player strategies.
 
 ---
 
-### Rules
+### 📋 Rules
 The game supports configurable house rules, including number of decks, dealer rules, payouts, etc.
 
 Current options:
@@ -12,7 +12,7 @@ Current options:
 
 ---
 
-### Players
+### 🎯 Players
 Players only make decisions, including hit, stand, double, or surrender based on their strategy.
 
 Current options:
@@ -23,7 +23,7 @@ Current options:
 
 ---
 
-### Files
+### 📂 Files
 
 - **`main.py`**: Entry point for running custom number of rounds and betting amounts with selected players and rules.
 - **`plot.py`**: Visualization of results and trends from simulations.
@@ -38,7 +38,7 @@ Current options:
 
 ---
 
-### Flowchart
+### 🔀 Flowchart
 
 ```mermaid
 graph TD
@@ -55,14 +55,14 @@ graph TD
 
 ---
 
-### How to Run
+### ▶️ How to Run
 1. Clone the repository.
 2. Adjust `PARAMETERS` in `main.py`.
 2. Run `main.py`.
 
 ---
 
-### Future Work
+### 🚀 Future Work
 - Implement splitting.
 - Expand rule customization options.
 - Implement card-counting and AI-based strategies.
