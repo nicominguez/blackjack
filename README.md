@@ -39,15 +39,18 @@ Current options:
 ---
 
 ### Flowchart
-Below is a flowchart illustrating the relationships between the core components:
 
 ```mermaid
 graph TD
     Card --> Hand
     Hand --> Player
+    Card --> Player
+    Rules --> Player
+    PlayerUtils --> Player
     Player --> Game
     Rules --> Game
-    PlayerUtils --> Player
+    Game --> Simulation/Main
+    Plot --> Simulation/Main
 ```
 
 ---
