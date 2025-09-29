@@ -2,6 +2,10 @@
 
 A simple blackjack simulator designed to test various strategies and house rules. This project allows you to simulate games, analyze outcomes, and explore different player strategies.
 
+![Bankroll histories throughout simulation](images/bh.png)
+![Cumulative winrate throughout simulation](images/wr.png)
+![Console output](images/Screenshot 2025-09-29 at 17.08.58.png)
+
 ---
 
 ### 📋 Rules
