@@ -71,8 +71,8 @@ def main():
         "rules": HouseRules(),
         "num_hands": 3000,
         "bet_amount": 5,
-        "plot_bh": True,
-        "plot_wr": False
+        "plot_bh": False,
+        "plot_wr": True
     }
 
     results = run_sim(**PARAMETERS)
