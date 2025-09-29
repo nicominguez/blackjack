@@ -1,25 +1,66 @@
 # Blackjack Simulator
-Simple blackjack simulator with configurable house rules and player strategies to try to find a way to beat the house.
-***
+
+A simple blackjack simulator designed to test various strategies and house rules. This project allows you to simulate games, analyze outcomes, and explore different player strategies.
+
+---
+
 ### Rules
-This includes the number of decks, dealer hit rules, and payouts.
+The game supports configurable house rules, including number of decks, dealer rules, payouts, etc.
 
 Current options:
-* **HouseRules**: Basic US casino rules.
-***
+* **HouseRules**: Basic rules used in most casinos.
+
+---
+
 ### Players
-Makes decision to hit, stand, etc.
+Players only make decisions, including hit, stand, double, or surrender based on their strategy.
 
 Current options:
-* **Random Player**: Makes moves randomly.
-* **Basic Blackjack Strategy**: Follows the basic strategy chart.
-* **Perfect Blackjack Strategy**: Follows the perfect strategy chart.
-* **AI Player**: TODO
-***
+* **Random Player**: Makes decisions randomly.
+* **Basic Strategy Player**: Simple hit/stand logic.
+* **Chart Player 1**: Follows a basic strategy chart.
+* **Chart Player 2**: Follows an advanced strategy chart.
+
+---
+
 ### Files
-* **`main.py`**: Runs a single round of the game.
-* **`simulation.py`**: Runs multiple rounds to test a strategy over time.
-* **`game.py`**: Contains the core logic for a single round of Blackjack.
-* **`player.py`**: Defines the `Player` class and its subclasses.
-* **`rules.py`**: Sets the rules for the game (e.g., number of decks, payouts).
-* **`card.py` & `hand.py`**: These files define the fundamental building blocks of the game: cards and hands.
+
+- **`main.py`**: Entry point for running custom number of rounds and betting amounts with selected players and rules.
+- **`plot.py`**: Visualization of results and trends from simulations.
+
+**/src**
+- **`card.py`**: Creates and shuffles the dec.
+- **`hand.py`**: Calculates totals, checks busts, blackjacks, etc.
+- **`rules.py`**: Contains different rule sets.
+- **`player.py`**: Contains different players.
+- **`player_utils.py`**: Provides utility functions and matrices for players.
+- **`game.py`**: Manages the flow of a single round of blackjack.
+
+---
+
+### Flowchart
+Below is a flowchart illustrating the relationships between the core components:
+
+```mermaid
+graph TD
+    Card --> Hand
+    Hand --> Player
+    Player --> Game
+    Rules --> Game
+    PlayerUtils --> Player
+```
+
+---
+
+### How to Run
+1. Clone the repository.
+2. Adjust `PARAMETERS` in `main.py`.
+2. Run `main.py`.
+
+---
+
+### Future Work
+- Implement splitting.
+- Expand rule customization options.
+- Implement card-counting and AI-based strategies.
+- Add more detailed statistical analysis of outcomes.
