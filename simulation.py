@@ -1,21 +1,19 @@
 from src.player import *
 from src.rules import HouseRules
 from src.game import Game
-
-player = BasicStrategyPlayer()  # default
-rules = HouseRules()  # default
+from typing import Dict
 
 
 def run_simulation(
-    p: Player = player,
-    r: HouseRules = rules,
+    p: Player = BasicStrategyPlayer(),
+    r: HouseRules = HouseRules(),
     num_hands: int = 1000,
     bet_amount: int = 5,
-) -> None:
+) -> Dict[str, any]:
     game = Game(player=p, rules=r)
 
     wins, losses, pushes = 0, 0, 0
-    bankroll_history = []  # plots
+    bankroll_history, cum_winrate = [], []  # plots
 
     for _ in range(num_hands):
         outcome = game.play_round(bet_amount=bet_amount)
@@ -34,18 +32,27 @@ def run_simulation(
             pushes += 1
 
         bankroll_history.append(p.bankroll)
+        cum_winrate.append(wins / (wins + losses + pushes))
 
-    return [wins, losses, pushes, wins + losses + pushes, p.bankroll, bankroll_history]
+    return {
+        "wins": wins,
+        "losses": losses,
+        "pushes": pushes,
+        "total_games": wins + losses + pushes,
+        "final_bankroll": p.bankroll,
+        "bankroll_history": bankroll_history,
+        "cum_winrate": cum_winrate,
+    }
 
 
 def main():
     results = run_simulation(p=ChartPlayer2())
 
-    print(f"Hands played: {results[3]}")
-    print(f"Wins: {results[0]} ~ {(results[0]/results[3]):.2%}")
-    print(f"Losses: {results[1]} ~ {(results[1]/results[3]):.2%}")
-    print(f"Pushes: {results[2]} ~ {(results[2]/results[3]):.2%}")
-    print(f"Bankroll: {results[4]}")
+    print(f"Hands played: {results.get("total_games")}")
+    print(f"Wins: {results.get("wins")} ~ {(results.get("total_games")/results.get("total_games")):.2%}")
+    print(f"Losses: {results.get("losses")} ~ {(results.get("losses")/results.get("total_games")):.2%}")
+    print(f"Pushes: {results.get("pushes")} ~ {(results.get("pushes")/results.get("total_games")):.2%}")
+    print(f"Bankroll: {results.get("final_bankroll")}")
 
 
 if __name__ == "__main__":

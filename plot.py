@@ -1,5 +1,5 @@
 import matplotlib.pyplot as plt
-from executables.simulation import run_simulation
+from simulation import run_simulation
 from src.player import *
 
 

@@ -1,21 +1,22 @@
-from src.card import Card, build_shoe
+from src.card import build_shoe
 from src.hand import Hand
 from src.rules import HouseRules
-from typing import List, Literal
+from src.player import Player
+from typing import Literal, Union
 
 
 class Game:
-    def __init__(self, rules: HouseRules, player):
-        self.rules = rules
-        self.player = player
+    def __init__(self, rules: HouseRules, player: Player):
+        self.rules: HouseRules = rules
+        self.player: Player = player
         self.shoe = build_shoe(num_decks=6)
 
-    def play_round(self, bet_amount: int):
+    def play_round(self, bet_amount: int) -> dict[str, Union[str, Hand, None, float]]:
         def round_result(
             result: Literal["win", "loss", "push", "blackjack", "surr_loss", "broke"],
             player_hand: Hand | None,
             dealer_hand: Hand | None,
-        ):
+        ) -> dict[str, Union[str, Hand, None, float]]:
             if result == "loss":
                 self.player.bankroll -= bet_amount
             elif result == "win":
@@ -66,18 +67,18 @@ class Game:
             move = self.player.decide_move(
                 player_hand, dealer_hand.cards[0], self.rules
             )
-            if move == "hit" or move == "h":
+            if move == "hit":
                 player_hand.add(self.shoe.pop())
-            elif move == "surrender" or move == "r":
+            elif move == "surrender":
                 return round_result("surr_loss", None, None)
-            elif move == "double" or move == "d":
+            elif move == "double":
                 player_hand.add(self.shoe.pop())
                 bet_amount *= 2
                 break
-            elif move == "stand" or move == "s":
+            elif move == "stand":
                 break
             else:
-                break  # implement splitting
+                break  # TODO implement splitting
 
         if player_hand.is_bust:
             return round_result("loss", player_hand, dealer_hand)

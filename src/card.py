@@ -1,6 +1,5 @@
 from dataclasses import dataclass
 import random
-from typing import List
 
 SUITS = ["♠", "♥", "♦", "♣"]
 RANKS = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"]
@@ -23,13 +22,9 @@ class Card:
         return int(self.rank)
 
 
-def build_shoe(num_decks: int = 1) -> list:
-    shoe: List[Card] = [
+def build_shoe(num_decks: int = 1) -> list[Card]:
+    shoe: list[Card] = [
         Card(rank, suit) for _ in range(num_decks) for suit in SUITS for rank in RANKS
     ]
     random.shuffle(shoe)
     return shoe
-
-
-def draw_card():
-    pass

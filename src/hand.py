@@ -1,16 +1,15 @@
 from dataclasses import dataclass, field
-from typing import List
 from src.card import Card
 
 
 @dataclass(slots=True)
 class Hand:
-    cards: List[Card] = field(default_factory=list)
+    cards: list[Card] = field(default_factory=list)
 
     def add(self, card: Card) -> None:
         self.cards.append(card)
 
-    def totals(self) -> List[int]:
+    def totals(self) -> list[int]:
         total, aces = 0, 0
         for card in self.cards:
             total += card.hard_value
