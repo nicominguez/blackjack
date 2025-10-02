@@ -17,18 +17,20 @@ def run_sim(
     labels = []
 
     for player in players:
-        game = Game(player=player, rules=rules)
+        game = Game(player=player, rules=rules, bet=bet_amount)
         wins, losses, pushes = 0, 0, 0
         bankroll_history, cum_winrate = [], []
 
         for _ in range(num_hands):
-            outcome = game.play_round(bet_amount=bet_amount)
+            bet_amount = game.player.decide_bet_amount(curr_bet_amount=bet_amount)
+            outcome = game.play_round()
+            game.bet = bet_amount
 
             if outcome.get("outcome") == "broke":
                 print(
                     f"Player {repr(player)} doesn't have money for the current bet.\n"
                     f"Player bankroll: {game.player.bankroll}\nCurrent bet: {bet_amount}\n\n\n"
-                )
+                )   
                 break
 
             if outcome.get("outcome") in ["win", "blackjack"]:
@@ -67,11 +69,11 @@ def run_sim(
 
 def main():
     PARAMETERS = {
-        "players": [RandomStrategyPlayer(), BasicStrategyPlayer(), ChartPlayer1(), ChartPlayer2()],
+        "players": [BasicStrategyPlayer(), ChartPlayer1(), ChartPlayer2()],
         "rules": HouseRules(),
-        "num_hands": 3000,
+        "num_hands": 1000,
         "bet_amount": 5,
-        "plot_bh": False,
+        "plot_bh": True,
         "plot_wr": True
     }
 
