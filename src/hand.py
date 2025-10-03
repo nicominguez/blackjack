@@ -29,7 +29,7 @@ class Hand:
 
     @property
     def is_blackjack(self) -> bool:
-        return len(self.cards) == 2 and self.totals == [21]
+        return len(self.cards) == 2 and self.totals() == [21]
 
     @property
     def is_bust(self) -> bool:

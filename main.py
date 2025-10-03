@@ -35,7 +35,7 @@ def run_sim(
 
             if outcome.get("outcome") in ["win", "blackjack"]:
                 wins += 1
-            elif outcome.get("outcome") == "loss":
+            elif outcome.get("outcome") in ["loss", "surr_loss"]:
                 losses += 1
             else:
                 pushes += 1
@@ -71,7 +71,7 @@ def main():
     PARAMETERS = {
         "players": [ChartPlayer2(), RCHighLowPlayer()],
         "rules": HouseRules(),
-        "num_hands": 5000,
+        "num_hands": 100000,
         "BASE_BET": 5,
         "plot_bh": True,
         "plot_wr": True

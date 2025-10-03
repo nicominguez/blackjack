@@ -109,5 +109,5 @@ class RCHighLowPlayer(Player):
             return map_result_char(HARD_MATRIX[hand.best_total - 4][get_dealer_index(card_val = dealer_up.rank)])
 
     def decide_bet_amount(self, curr_bet_unit: int, shoe_length: int) -> int:
-        true_count = self.running_count / (shoe_length // 52)
-        return min(int((true_count - 1) * curr_bet_unit), 0)
+        true_count = self.running_count / max((shoe_length // 52),1) # avoid division by 0
+        return max(int((true_count - 1) * curr_bet_unit), 5)
