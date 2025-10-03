@@ -18,9 +18,12 @@ class Game:
             <= self.rules.reshuffle_threshold
         ):
             self.shoe = build_shoe(num_decks=self.rules.num_decks)
+            if hasattr(self.player, '_reset_running_count'):
+                self.player._reset_running_count()
 
     def _check_bankrupcy(self) -> Optional[dict[str, Union[str, Hand, None, float]]]:
-        if self.player.bankroll < self.player.decide_bet_amount(self.bet):
+        bet_amount = self.player.decide_bet_amount(self.bet, shoe_length=len(self.shoe))
+        if self.player.bankroll < bet_amount:
             return self._round_result("broke", None, None)
 
     def _deal(self) -> tuple[Player, Player]:

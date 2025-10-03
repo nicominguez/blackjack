@@ -7,7 +7,7 @@ def run_sim(
         players: list[Player],
         rules: HouseRules = HouseRules(),
         num_hands: int = 1000,
-        bet_amount: int = 5,
+        BASE_BET: int = 5,
         plot_bh: bool = False,
         plot_wr: bool = False
 ) -> list[dict[str, int | list]]:
@@ -17,19 +17,19 @@ def run_sim(
     labels = []
 
     for player in players:
-        game = Game(player=player, rules=rules, bet=bet_amount)
+        game = Game(player=player, rules=rules, bet=BASE_BET)
         wins, losses, pushes = 0, 0, 0
         bankroll_history, cum_winrate = [], []
 
         for _ in range(num_hands):
-            bet_amount = game.player.decide_bet_amount(curr_bet_amount=bet_amount)
+            game.bet = game.player.decide_bet_amount(curr_bet_unit=BASE_BET, shoe_length=len(game.shoe))
             outcome = game.play_round()
-            game.bet = bet_amount
+            game.bet = BASE_BET #resets
 
             if outcome.get("outcome") == "broke":
                 print(
                     f"Player {repr(player)} doesn't have money for the current bet.\n"
-                    f"Player bankroll: {game.player.bankroll}\nCurrent bet: {bet_amount}\n\n\n"
+                    f"Player bankroll: {game.player.bankroll}\nCurrent bet: {BASE_BET}\n\n\n"
                 )   
                 break
 
@@ -69,10 +69,10 @@ def run_sim(
 
 def main():
     PARAMETERS = {
-        "players": [BasicStrategyPlayer(), ChartPlayer1(), ChartPlayer2()],
+        "players": [ChartPlayer2(), RCHighLowPlayer()],
         "rules": HouseRules(),
-        "num_hands": 1000,
-        "bet_amount": 5,
+        "num_hands": 5000,
+        "BASE_BET": 5,
         "plot_bh": True,
         "plot_wr": True
     }
