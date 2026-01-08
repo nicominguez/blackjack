@@ -1,7 +1,7 @@
-from static.player import *
-from static.rules import HouseRules
-from static.game import Game
-from static.plot import *
+from ..src.static.player import *
+from ..src.static.rules import HouseRules
+from ..src.static.game import Game
+from ..src.static.plot import *
 
 def run_sim(
         players: list[Player],
