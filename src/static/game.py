@@ -1,7 +1,7 @@
-from src.card import build_shoe
-from src.hand import Hand
-from src.player import Player
-from src.rules import HouseRules
+from .card import build_shoe
+from .hand import Hand
+from .player import Player
+from .rules import HouseRules
 from typing import Literal, Union, Optional
 
 
@@ -22,17 +22,28 @@ class Game:
                 self.player._reset_running_count()
 
     def _check_bankrupcy(self) -> Optional[dict[str, Union[str, Hand, None, float]]]:
-        bet_amount = self.player.decide_bet_amount(self.bet, shoe_length=len(self.shoe))
-        if self.player.bankroll < bet_amount:
+        if self.player.bankroll < self.bet:
             return self._round_result("broke", None, None)
 
-    def _deal(self) -> tuple[Player, Player]:
+    def _deal(self) -> tuple[Hand, Hand]:
         player_hand = Hand()
         dealer_hand = Hand()
-        player_hand.add(self.shoe.pop())
-        dealer_hand.add(self.shoe.pop())
-        player_hand.add(self.shoe.pop())
-        dealer_hand.add(self.shoe.pop())
+        card1 = self.shoe.pop()
+        player_hand.add(card1)
+        if hasattr(self.player, '_update_running_count'):
+            self.player._update_running_count(card1)
+        card2 = self.shoe.pop()
+        dealer_hand.add(card2)
+        if hasattr(self.player, '_update_running_count'):
+            self.player._update_running_count(card2)
+        card3 = self.shoe.pop()
+        player_hand.add(card3)
+        if hasattr(self.player, '_update_running_count'):
+            self.player._update_running_count(card3)
+        card4 = self.shoe.pop()
+        dealer_hand.add(card4)
+        if hasattr(self.player, '_update_running_count'):
+            self.player._update_running_count(card4)
         return (player_hand, dealer_hand)
 
     def _player_turn(
@@ -47,11 +58,17 @@ class Game:
                 player_hand, dealer_hand.cards[0], self.rules
             )
             if move == "hit":
-                player_hand.add(self.shoe.pop())
+                card = self.shoe.pop()
+                player_hand.add(card)
+                if hasattr(self.player, '_update_running_count'):
+                    self.player._update_running_count(card)
             elif move == "surrender":
                 return self._round_result("surr_loss", None, None)
             elif move == "double":
-                player_hand.add(self.shoe.pop())
+                card = self.shoe.pop()
+                player_hand.add(card)
+                if hasattr(self.player, '_update_running_count'):
+                    self.player._update_running_count(card)
                 self.bet *= 2
                 break
             elif move == "stand":
@@ -72,7 +89,10 @@ class Game:
             while total < 17 or (
                 total == 17 and dealer_hand.is_soft and self.rules.dealer_hits_soft_17
             ):
-                dealer_hand.add(self.shoe.pop())
+                card = self.shoe.pop()
+                dealer_hand.add(card)
+                if hasattr(self.player, '_update_running_count'):
+                    self.player._update_running_count(card)
                 total = dealer_hand.best_total
             else:
                 break

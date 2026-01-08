@@ -1,7 +1,7 @@
-from src.player import *
-from src.rules import HouseRules
-from src.game import Game
-from plot import *
+from static.player import *
+from static.rules import HouseRules
+from static.game import Game
+from static.plot import *
 
 def run_sim(
         players: list[Player],
@@ -24,14 +24,15 @@ def run_sim(
         for _ in range(num_hands):
             game.bet = game.player.decide_bet_amount(curr_bet_unit=BASE_BET, shoe_length=len(game.shoe))
             outcome = game.play_round()
-            game.bet = BASE_BET #resets
 
             if outcome.get("outcome") == "broke":
                 print(
                     f"Player {repr(player)} doesn't have money for the current bet.\n"
-                    f"Player bankroll: {game.player.bankroll}\nCurrent bet: {BASE_BET}\n\n\n"
+                    f"Player bankroll: {game.player.bankroll}\nCurrent bet: {game.bet}\n\n\n"
                 )   
                 break
+            
+            game.bet = BASE_BET #resets
 
             if outcome.get("outcome") in ["win", "blackjack"]:
                 wins += 1
@@ -58,7 +59,6 @@ def run_sim(
             "cum_winrate": cum_winrate,
         })
 
-    # Plots
     if plot_bh:
         plot_bankroll_histories(bankroll_histories, labels)
     if plot_wr:
@@ -69,7 +69,7 @@ def run_sim(
 
 def main():
     PARAMETERS = {
-        "players": [ChartPlayer2(), RCHighLowPlayer()],
+        "players": [RandomStrategyPlayer(), BasicStrategyPlayer(), ChartPlayer1(), ChartPlayer2(), RCHighLowPlayer()],
         "rules": HouseRules(),
         "num_hands": 100000,
         "BASE_BET": 5,

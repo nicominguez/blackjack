@@ -1,8 +1,7 @@
 import matplotlib.pyplot as plt
 
 
-def plot_bankroll_histories(bankroll_histories: list[list[int]], labels: list):
-    """Plots multiple players' bankrolls throughout the simulation."""
+def plot_bankroll_histories(bankroll_histories: list[list[int]], labels: list[str]):
     plt.figure(figsize=(12, 6))
 
     for bh, label in zip(bankroll_histories, labels):
@@ -25,7 +24,7 @@ def plot_bankroll_histories(bankroll_histories: list[list[int]], labels: list):
     plt.legend()
     plt.show()
 
-def plot_cumulative_winrates(cumulative_winrates: list[list[float]], labels: list):
+def plot_cumulative_winrates(cumulative_winrates: list[list[float]], labels: list[str]):
     plt.figure(figsize=(12, 6))
 
     for wr, label in zip(cumulative_winrates, labels):

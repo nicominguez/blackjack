@@ -13,5 +13,5 @@ class HouseRules:
     resplit_aces: bool = False
     hit_split_aces: bool = False
     max_splits: int = 3
-    reshuffle_threshold = 0.25  # reshuffle when only 25% of the shoe remains
+    reshuffle_threshold: float = 0.25  # reshuffle when only 25% of the shoe remains
     continuous_reshuffle = False

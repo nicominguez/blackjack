@@ -1,5 +1,4 @@
 def map_result_char(c: str) -> str:
-    """Maps a shorthand decision character to its full form."""
     RESULT_MAP = {
         "h": "hit",
         "s": "stand",
