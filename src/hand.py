@@ -2,7 +2,7 @@ from dataclasses import dataclass, field
 from .card import Card
 
 
-@dataclass(slots=True)
+@dataclass
 class Hand:
     cards: list[Card] = field(default_factory=list)
 
@@ -37,9 +37,16 @@ class Hand:
 
     @property
     def is_soft(self) -> bool:
-        total = sum(card.hard_value for card in self.cards)
         has_ace = any(card.rank == "A" for card in self.cards)
-        return total <= 21 and has_ace
+        aces = sum(1 for card in self.cards if card.rank == "A")
+        if aces == 0:
+            return False
+        non_aces_sum = sum(card.hard_value for card in self.cards if card.rank != "A")
+        base = non_aces_sum + aces * 1
+        for k in range(1, aces + 1):
+            if base + 10 * k <= 21:
+                return True
+        return False
 
     def __repr__(self) -> str:
         return f"Hand: {' '.join(str(card) for card in self.cards)} \nTotal: {self.best_total} "
