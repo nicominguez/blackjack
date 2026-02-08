@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 
 
-@dataclass(slots=True)
+@dataclass
 class HouseRules:
     num_decks: int = 6
     dealer_hits_soft_17: bool = False

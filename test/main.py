@@ -1,7 +1,7 @@
-from ..src.static.player import *
-from ..src.static.rules import HouseRules
-from ..src.static.game import Game
-from ..src.static.plot import *
+from typing import Union
+from src.player import *
+from src.rules import *
+from src.game import *
 
 def run_sim(
         players: list[Player],
@@ -10,7 +10,7 @@ def run_sim(
         BASE_BET: int = 5,
         plot_bh: bool = False,
         plot_wr: bool = False
-) -> list[dict[str, int | list]]:
+) -> list[dict[str, Union[int, list]]]:
     results = []
     bankroll_histories = []
     cumulative_winrates = []
@@ -22,17 +22,14 @@ def run_sim(
         bankroll_history, cum_winrate = [], []
 
         for _ in range(num_hands):
-            game.bet = game.player.decide_bet_amount(curr_bet_unit=BASE_BET, shoe_length=len(game.shoe))
             outcome = game.play_round()
 
             if outcome.get("outcome") == "broke":
                 print(
                     f"Player {repr(player)} doesn't have money for the current bet.\n"
                     f"Player bankroll: {game.player.bankroll}\nCurrent bet: {game.bet}\n\n\n"
-                )   
+                )
                 break
-            
-            game.bet = BASE_BET #resets
 
             if outcome.get("outcome") in ["win", "blackjack"]:
                 wins += 1
@@ -59,17 +56,15 @@ def run_sim(
             "cum_winrate": cum_winrate,
         })
 
-    if plot_bh:
-        plot_bankroll_histories(bankroll_histories, labels)
-    if plot_wr:
-        plot_cumulative_winrates(cumulative_winrates, labels)
-
     return results
 
 
 def main():
+    q_player = QLearningPlayer(training_mode=False)
+    q_player.load_model("../models/q_learning_player.pkl")
+
     PARAMETERS = {
-        "players": [RandomStrategyPlayer(), BasicStrategyPlayer(), ChartPlayer1(), ChartPlayer2(), RCHighLowPlayer()],
+        "players": [ChartPlayer2(), RCHighLowPlayer(), q_player],
         "rules": HouseRules(),
         "num_hands": 100000,
         "BASE_BET": 5,
