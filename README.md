@@ -5,7 +5,7 @@
 Update models
 
 ```bash
-python3 -m tools.ml_trainer`
+python3 -m tools.ml_trainer
 ```
 
 Run Simulation
