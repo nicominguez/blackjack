@@ -4,9 +4,9 @@ from pathlib import Path
 import inspect
 import re
 
-from blackjack.src.simulation import run_sim
-import blackjack.src.players as player_mod
-from blackjack.src.rules import HouseRules
+from src.simulation import run_sim
+import src.player as player_mod
+from src.rules import HouseRules
 
 st.set_page_config(
     page_title="Blackjack Simulation",
@@ -143,7 +143,7 @@ if st.session_state.num_players < 4:
 
 for i, (strategy, _) in enumerate(player_configs):
     if strategy == "Q-Learning AI":
-        model_path = Path("blackjack/_models/q_learning_player.pkl")
+        model_path = Path("_models/q_learning_player.pkl")
 
         col1, col2 = st.columns([3, 1])
         with col1:
@@ -169,7 +169,7 @@ if st.button(
     "Run Simulation", key="run_sim_button", type="primary", use_container_width=True
 ):
     players = []
-    model_path = Path("blackjack/_models/q_learning_player.pkl")
+    model_path = Path("_models/q_learning_player.pkl")
 
     for strategy, _ in player_configs:
         cls = STRATEGY_OPTIONS_SORTED[strategy]
